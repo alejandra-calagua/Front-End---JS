@@ -150,8 +150,12 @@ function agregarProductoAlCarrito(idProducto) {
 
 // Maneja el evento de clic en los botones "Comprar".
 function manejarClicComprar(evento) {    
-    const productoId = evento.target.dataset.id;
-    agregarProductoAlCarrito(productoId);    
+    //el if hace que cuando tocamos en cualquier parte no me rompe el carrito
+    if(evento.target.classList.contains("btn-comprar")){
+       const productoId = evento.target.dataset.id;
+       agregarProductoAlCarrito(productoId); 
+    }
+        
 }
 
 // Agrega los productos del array 'productos' al DOM y configura los listeners de "Comprar".
@@ -168,7 +172,7 @@ function agregarProductos() {
                 <div class="producto-contenido">
                     <h4>${producto.nombre}</h4>
                     <span>Código: ${producto.id}</span>
-                    <span>Precio: $ ${producto.precio}</span>
+                    <span>Precio: $ ${formatearPrecio(producto.precio)}</span>
                     <button class="btn-comprar" type="button" data-id="${producto.id}">Comprar</button>
                 </div>
             </div>
@@ -227,7 +231,7 @@ function actualizarCarritoHTML() {
             const item = carrito[i];
             const li = document.createElement("li");
             li.innerHTML = `
-                <span>${item.nombre} - $${item.precio} x ${item.cantidad}</span>
+                <span>${item.nombre} - $${formatearPrecio(item.precio)} x ${item.cantidad}</span>
                 <div>
                     <button class="btn-cantidad" data-id="${item.id}" data-action="restar">-</button>
                     <button class="btn-cantidad" data-id="${item.id}" data-action="sumar">+</button>
@@ -241,12 +245,16 @@ function actualizarCarritoHTML() {
     }
 
     // Mostrar el total a pagar y la cantidad de productos
-    carritoCompras.querySelector(".total-carrito").textContent = `Total a pagar: $${totalPagar}`;
+    carritoCompras.querySelector(".total-carrito").textContent = `Total a pagar: $${formatearPrecio(totalPagar)}`;
     carritoCompras.querySelector(".cantidad-carrito").textContent = `Productos en carrito: ${cantidadProductosUnicos}`;
 
     // Configurar el Event Listener para los botones de cantidad y eliminar
     const nuevoListaCarrito = carritoCompras.querySelector(".lista-carrito");
     nuevoListaCarrito.addEventListener("click", manejarClicCarrito);
+    //agregado para que actualice el numero del boton fijo
+    document.getElementById("contador-carrito").textContent = carrito.reduce(
+    (total, item) => total + item.cantidad,
+    0);
 }
 
 // Suma una unidad a la cantidad de un producto en el carrito.
@@ -302,6 +310,19 @@ function eliminarProductoDelCarrito(idProducto) {
     actualizarCarritoHTML();
 }
 
+//funcion para el boton del carrito fijo
+const botonCarrito = document.querySelector("#boton-carrito");
+const seccionCarrito = document.querySelector(".carritoCompras");
+
+// Mostrar/ocultar al hacer clic en el botón fijo
+botonCarrito.addEventListener("click", () => {
+    seccionCarrito.classList.toggle("visible"); // Agregamos/quitemos una clase
+});
+
+// Separador con punto para los miles 
+function formatearPrecio(precio) {
+    return precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
 // Inicializar la aplicación
 agregarProductos();

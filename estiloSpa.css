@@ -240,13 +240,31 @@ footer{
 }
 
 .lista-carrito li {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    margin-bottom: 5px;
-    padding-right: 5px;
+    display: flex; /* Alinea los elementos en una fila */
+    justify-content: space-between; /* Mueve el texto a un lado y los botones al otro */
+    align-items: center; /* Centra verticalmente el contenido */
+    flex-wrap: wrap; /* Permite que el contenido se divida en varias líneas si no cabe */
+    gap: 5px; /* Pequeño espacio entre el texto y el grupo de botones */
+    padding: 8px 0; /* Espaciado arriba y abajo de cada ítem */
+    border-bottom: 1px dashed #eee; /* Una línea divisoria suave */
+}
+/* Para el último ítem, quita la línea inferior */
+.lista-carrito li:last-child {
+    border-bottom: none;
 }
 
+/* El texto del nombre del producto y precio */
+.lista-carrito li span {
+    flex-grow: 1; /* Permite que el texto ocupe el espacio disponible */
+    word-break: break-word; /* *Importante:* rompe las palabras largas para que no se salgan del contenedor */
+    margin-right: 10px; /* Espacio entre el texto y los botones */
+}
+
+/* El contenedor de los botones (+, -, eliminar) */
+.lista-carrito li div {
+    display: flex; /* Alinea los botones entre sí */
+    gap: 3px; /* Espacio entre cada botón */
+}
 .lista-carrito button {
     margin-left: 5px;
     padding: 3px 8px;
@@ -268,4 +286,66 @@ footer{
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid #eee;
+}
+/* para pponer el carrito fijo abajo */
+.boton-carrito-fijo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #060117;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+
+.boton-carrito-fijo:hover {
+    background-color: #3212a3;
+}
+.carritoCompras {
+    display: none;
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: white;
+    border: 2px solid #ccc;
+    padding: 20px;
+    max-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 999;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.carritoCompras.visible {
+    display: block;
+}
+
+
+/* Estilos para el botón "Comprar" */
+.btn-comprar {
+  background-color: #8ef6ef; /* Un color verde que evoca "comprar" */
+  color: rgb(152, 65, 65); /* Texto blanco para contrastar */
+  padding: 10px 20px; /* Espaciado interno para que el botón sea más grande */
+  border: none; /* Elimina el borde predeterminado del botón */
+  border-radius: 20px; /* ¡Esto lo hace redondeado! Puedes ajustar el valor */
+  cursor: pointer; /* Cambia el cursor a una mano al pasar por encima */
+  font-size: 16px; /* Tamaño de fuente del texto del botón */
+  transition: background-color 0.3s ease; /* Suaviza el cambio de color al pasar el mouse */
+}
+
+/* Estilos para cuando el mouse pasa por encima del botón */
+.btn-comprar:hover {
+  background-color: #087f96; /* Un verde un poco más oscuro al pasar el mouse */
+}
+
+/* Estilos para cuando el botón está activo (si se hace clic) */
+.btn-comprar:active {
+  background-color: #0dd3f2; /* Un verde aún más oscuro al hacer clic */
 }
